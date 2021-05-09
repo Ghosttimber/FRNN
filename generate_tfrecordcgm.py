@@ -52,6 +52,10 @@ def create_tf_example(group, path, label_map):
         encoded_jpg = fid.read()
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
+    widthsb, heightsb = image.size
+    widthlv=widthsb/400
+    heighlv=heightsb/400
+    image=image.resize((400,400))
     width, height = image.size
 
     filename = group.filename.encode("utf8")
@@ -65,10 +69,10 @@ def create_tf_example(group, path, label_map):
     classes = []
 
     for index, row in group.object.iterrows():
-        xmin=row["xmin"] / width
-        xmax=row["xmax"] / width
-        ymin=row["ymin"] / height
-        ymax=row["ymax"] / height
+        xmin=row["xmin"] / widthsb/widthlv
+        xmax=row["xmax"] / widthsb/widthlv
+        ymin=row["ymin"] / heightsb/widthlv
+        ymax=row["ymax"] / heightsb/widthlv
         xmins.append(min(xmin,xmax))
         xmaxs.append(max(xmin,xmax))
         ymins.append(min(ymin,ymax))
