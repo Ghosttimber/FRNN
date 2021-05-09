@@ -113,19 +113,29 @@ def main(_):
     from object_detection.utils import label_map_util
 
     label_map = label_map_util.load_labelmap(FLAGS.label_map)
-    pd.DataFrame(label_map).to_csv('label_map')
+    with open('label_map.txt','w+') as f:
+        f.write(label_map)
+        f.close()
     categories = label_map_util.convert_label_map_to_categories(
         label_map, max_num_classes=90, use_display_name=True
     )
-    pd.DataFrame(categories).to_csv('categories')
+
+    with open('categories.txt','w+') as f:
+        f.write(categories)
+        f.close()
     category_index = label_map_util.create_category_index(categories)
     label_map = {}
     
     for k, v in category_index.items():
         label_map[v.get("name")] = v.get("id")
-    pd.DataFrame(category_index).to_csv('category_index')
+
+    with open('category_index.txt','w+') as f:
+        f.write(category_index)
+        f.close()
     grouped = split(examples, "filename")
-    pd.DataFrame(grouped).to_csv('grouped')
+    with open('grouped.txt','w+') as f:
+        f.write(grouped)
+        f.close()
     for group in grouped:
         tf_example = create_tf_example(group, path, label_map)
         writer.write(tf_example.SerializeToString())
