@@ -114,14 +114,14 @@ def main(_):
 
     label_map = label_map_util.load_labelmap(FLAGS.label_map)
     with open('label_map.txt','w+') as f:
-        f.write(label_map)
+        f.write(str(label_map))
         f.close()
     categories = label_map_util.convert_label_map_to_categories(
         label_map, max_num_classes=90, use_display_name=True
     )
 
     with open('categories.txt','w+') as f:
-        f.write(categories)
+        f.write(str(categories))
         f.close()
     category_index = label_map_util.create_category_index(categories)
     label_map = {}
@@ -130,11 +130,11 @@ def main(_):
         label_map[v.get("name")] = v.get("id")
 
     with open('category_index.txt','w+') as f:
-        f.write(category_index)
+        f.write(str(category_index))
         f.close()
     grouped = split(examples, "filename")
     with open('grouped.txt','w+') as f:
-        f.write(grouped)
+        f.write(str(grouped))
         f.close()
     for group in grouped:
         tf_example = create_tf_example(group, path, label_map)
