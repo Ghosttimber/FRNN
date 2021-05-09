@@ -53,7 +53,7 @@ def create_tf_example(group, path):
     ymaxs = []
     classes_text = []
     classes = []
-for index, row in group.object.iterrows():
+    for index, row in group.object.iterrows():
         
         ########### ADDITIONAL CHECKS START HERE ###################
 
@@ -90,8 +90,6 @@ for index, row in group.object.iterrows():
         classes_text.append(row['class'].encode('utf8'))
         classes.append(class_text_to_int(row['class']))
 
-        classes_text.append(row['class'].encode('utf8'))
-        classes.append(class_text_to_int(row['class']))
  
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
