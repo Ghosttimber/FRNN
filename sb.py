@@ -53,12 +53,43 @@ def create_tf_example(group, path):
     ymaxs = []
     classes_text = []
     classes = []
- 
-    for index, row in group.object.iterrows():
-        xmins.append(row['xmin'] / width)
-        xmaxs.append(row['xmax'] / width)
-        ymins.append(row['ymin'] / height)
-        ymaxs.append(row['ymax'] / height)
+for index, row in group.object.iterrows():
+        
+        ########### ADDITIONAL CHECKS START HERE ###################
+
+        xmn = row['xmin'] / width
+        if xmn < 0.0:
+            xmn = 0.0
+        elif xmn > 1.0:
+            xmn = 1.0
+        xmins.append(xmn)
+
+        xmx = row['xmax'] / width
+        if xmx < 0.0:
+            xmx = 0.0
+        elif xmx > 1.0:
+            xmx = 1.0
+        xmaxs.append(xmx)
+
+        ymn = row['ymin'] / height
+        if ymn < 0.0:
+            ymn = 0.0
+        elif ymn > 1.0:
+            ymn = 1.0
+        ymins.append(ymn)
+
+        ymx = row['ymax'] / height
+        if ymx < 0.0:
+            ymx = 0.0
+        elif ymx > 1.0:
+            ymx = 1.0
+        ymaxs.append(ymx)
+
+        ############ ADDITIONAL CHECKS END HERE ####################
+
+        classes_text.append(row['class'].encode('utf8'))
+        classes.append(class_text_to_int(row['class']))
+
         classes_text.append(row['class'].encode('utf8'))
         classes.append(class_text_to_int(row['class']))
  
