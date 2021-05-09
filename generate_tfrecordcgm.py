@@ -65,10 +65,14 @@ def create_tf_example(group, path, label_map):
     classes = []
 
     for index, row in group.object.iterrows():
-        xmins.append(row["xmin"] / width)
-        xmaxs.append(row["xmax"] / width)
-        ymins.append(row["ymin"] / height)
-        ymaxs.append(row["ymax"] / height)
+        xmin=row["xmin"] / width
+        xmax=row["xmax"] / width
+        ymin=row["ymin"] / height
+        ymax=row["ymax"] / height
+        xmins.append(min(xmin,xmax))
+        xmaxs.append(max(xmin,xmax))
+        ymins.append(min(ymin,ymax))
+        ymaxs.append(max(ymin,ymax))
         classes_text.append(row["class"].encode("utf8"))
         class_index = label_map.get(row["class"])
         assert (
